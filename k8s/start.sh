@@ -8,7 +8,7 @@
 ########################################################################
 
 kubectl delete secret scalyr-api-key
-kubectl create secret generic scalyr-api-key --from-literal=scalyr-api-key=YOUR_WRITE_KEY
+kubectl create secret generic scalyr-api-key --from-literal=scalyr-api-key=${SCALYR_API_KEY}
 
 kubectl delete -f https://raw.githubusercontent.com/scalyr/scalyr-agent-2/release/k8s/scalyr-service-account.yaml
 kubectl create -f https://raw.githubusercontent.com/scalyr/scalyr-agent-2/release/k8s/scalyr-service-account.yaml
