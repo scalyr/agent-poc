@@ -3,7 +3,7 @@
 ########################################################################
 # This script starts the k8s daemonset
 # You must
-# a) enter your scalyr write key
+# a) enter your Scalyr write key
 # b) edit configmap.yaml to include any environment-aware variables
 ########################################################################
 
