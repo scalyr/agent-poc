@@ -18,4 +18,4 @@ kubectl create -f ./configmap.yaml
 kubectl get configmap scalyr-config -o yaml
 
 kubectl delete daemonset scalyr-agent-2
-kubectl create -f ./daemonset.yaml
+kubectl create -f ./daemonset_envfrom.yaml
