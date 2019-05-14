@@ -5,7 +5,7 @@
 # 
 # Instructions:
 # a) set your Scalyr write key in your shell ( e.g. export SCALYR_API_KEY=<YOUR_SCALYR_KEY> )
-# b) edit configmap.yaml to include any other environment-aware variables
+# b) edit configmap.yaml to set cluster name (to match the k8s cluster you want to monitor)
 # c) source ./start.sh
 ########################################################################
 
