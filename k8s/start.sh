@@ -1,8 +1,11 @@
 #!/bin/sh
 
-################################################
+########################################################################
 # This script starts the k8s daemonset
-################################################
+# You must
+# a) enter your scalyr write key
+# b) edit configmap.yaml to include any environment-aware variables
+########################################################################
 
 kubectl delete secret scalyr-api-key
 kubectl create secret generic scalyr-api-key --from-literal=scalyr-api-key=YOUR_WRITE_KEY
