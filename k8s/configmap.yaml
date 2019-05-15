@@ -5,6 +5,8 @@ data:
   SCALYR_K8S_CACHE_EXPIRY_SECS: "300"
   SCALYR_COMPRESSION_TYPE: bz2
   K8S_EVENTS_DISABLE: "true"
+  K8S_REPORT_CONTAINER_METRICS: "false"
+  K8S_REPORT_K8S_METRICS: "false"
 metadata:
   name: scalyr-config
   namespace: default
