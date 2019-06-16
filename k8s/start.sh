@@ -9,15 +9,21 @@
 # c) source ./start.sh
 ########################################################################
 
+# delete old objects
+kubectl delete daemonset scalyr-agent-2
+kubectl delete configmap scalyr-config
+kubectl delete -f https://raw.githubusercontent.com/scalyr/scalyr-agent-2/release/k8s/scalyr-service-account.yaml
 kubectl delete secret scalyr-api-key
+
+# Create Scalyr API key secret from environment variable
 kubectl create secret generic scalyr-api-key --from-literal=scalyr-api-key=${SCALYR_API_KEY}
 
-kubectl delete -f https://raw.githubusercontent.com/scalyr/scalyr-agent-2/release/k8s/scalyr-service-account.yaml
+# Authorize Scalyr agent pods
 kubectl create -f https://raw.githubusercontent.com/scalyr/scalyr-agent-2/release/k8s/scalyr-service-account.yaml
 
-kubectl delete configmap scalyr-config
+# Create the Scalyr config map
 kubectl create -f ./configmap.yaml
 kubectl get configmap scalyr-config -o yaml
 
-kubectl delete daemonset scalyr-agent-2
+# Create the daemonset
 kubectl create -f ./daemonset_envfrom.yaml
