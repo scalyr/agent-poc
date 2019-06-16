@@ -6,18 +6,36 @@
 # Instructions:
 # a) set your Scalyr write key in your shell ( e.g. export SCALYR_API_KEY=<YOUR_SCALYR_KEY> )
 # b) edit configmap.yaml to set cluster name (to match the k8s cluster you want to monitor)
-# c) source ./start.sh
+# c) edit configmap.yaml to set `SCALYR_K8S_RATELIMIT_CLUSTER_NUM_AGENTS` to the approximate number of Kubernetes Nodes in your cluster.
+# d) source ./start.sh
 ########################################################################
 
+# delete old objects
+echo "Deleting old scalyr daemonset ..."
+kubectl delete daemonset scalyr-agent-2
+
+echo "Deleting old scalyr configmap ..."
+kubectl delete configmap scalyr-config
+
+echo "Deleting old scalyr service account ..."
+kubectl delete -f https://raw.githubusercontent.com/scalyr/scalyr-agent-2/release/k8s/scalyr-service-account.yaml
+
+echo "Deleting old scalyr api-key secret ..."
 kubectl delete secret scalyr-api-key
+
+# Create Scalyr API key secret from environment variable
+echo "Creating scalyr api-key secret ..."
 kubectl create secret generic scalyr-api-key --from-literal=scalyr-api-key=${SCALYR_API_KEY}
 
-kubectl delete -f https://raw.githubusercontent.com/scalyr/scalyr-agent-2/release/k8s/scalyr-service-account.yaml
+# Authorize Scalyr agent pods
+echo "Creating scalyr service account ..."
 kubectl create -f https://raw.githubusercontent.com/scalyr/scalyr-agent-2/release/k8s/scalyr-service-account.yaml
 
-kubectl delete configmap scalyr-config
+# Create the Scalyr config map
+echo "Creating scalyr config map ..."
 kubectl create -f ./configmap.yaml
 kubectl get configmap scalyr-config -o yaml
 
-kubectl delete daemonset scalyr-agent-2
+# Create the daemonset
+echo "Creating scalyr daemon set ..."
 kubectl create -f ./daemonset_envfrom.yaml
