@@ -6,7 +6,8 @@
 # Instructions:
 # a) set your Scalyr write key in your shell ( e.g. export SCALYR_API_KEY=<YOUR_SCALYR_KEY> )
 # b) edit configmap.yaml to set cluster name (to match the k8s cluster you want to monitor)
-# c) source ./start.sh
+# c) edit configmap.yaml to set `SCALYR_K8S_RATELIMIT_CLUSTER_NUM_AGENTS` to the approximate number of Kubernetes Nodes in your cluster.
+# d) source ./start.sh
 ########################################################################
 
 # delete old objects
