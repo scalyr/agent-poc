@@ -33,6 +33,9 @@ f) Increase maximum line size to 50K
 6. Edit `configmap.yaml` `SCALYR_K8S_RATELIMIT_CLUSTER_NUM_AGENTS`: Enter number of nodes in your cluster. No need to be exact but as close as possible.
 7. `source start.sh`
 
+Note: if you want to use a different config file from `configmap.yaml`, you should edit that config file instead
+and then run `source start.sh <config_file_name>`.
+
 ## How to re-pull latest script version if you already downloaded before (Cara mendapatkan versi skrip terbaru jika Anda sudah mengunduh sebelumnya)
 
 1. `cd agent-poc/k8s/`
@@ -42,4 +45,7 @@ f) Increase maximum line size to 50K
 5. Edit `configmap.yaml` `SCALYR_K8S_CLUSTER_NAME`: Change `<your-cluster-name>` to name of k8s cluster you wish to monitor.
 6. Edit `configmap.yaml` `SCALYR_K8S_RATELIMIT_CLUSTER_NUM_AGENTS`: Enter number of nodes in your cluster. No need to be exact but as close as possible.
 7. Copy other custom changes you made from `configmap.yaml.bak` to `configmap.yaml` as needed.
-8. `source start.sh`
+8. `source start.sh <config_file_name>`
+
+Note: if you want to use a different config file from `configmap.yaml`, you should edit that config file instead
+and then run `source start.sh <config_file_name>`.
