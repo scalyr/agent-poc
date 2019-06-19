@@ -17,6 +17,10 @@ if [ -n "$1" ]; then
     CONFIGMAP_FILE=$1
 fi
 
+if [ -z "$SCALYR_API_KEY" ]; then
+    echo "Please set SCALYR_API_KEY environment variable.  Exiting."
+    return
+fi
 
 # delete old objects
 echo "Deleting old scalyr daemonset ..."
