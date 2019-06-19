@@ -7,8 +7,16 @@
 # a) set your Scalyr write key in your shell ( e.g. export SCALYR_API_KEY=<YOUR_SCALYR_KEY> )
 # b) edit configmap.yaml to set cluster name (to match the k8s cluster you want to monitor)
 # c) edit configmap.yaml to set `SCALYR_K8S_RATELIMIT_CLUSTER_NUM_AGENTS` to the approximate number of Kubernetes Nodes in your cluster.
-# d) source ./start.sh
+# d) source ./start.sh <configmap_file_name>
 ########################################################################
+
+
+CONFIGMAP_FILE="configmap.yaml"
+
+if [ -n "$1" ]; then
+    CONFIGMAP_FILE=$1
+fi
+
 
 # delete old objects
 echo "Deleting old scalyr daemonset ..."
@@ -33,7 +41,7 @@ kubectl create -f https://raw.githubusercontent.com/scalyr/scalyr-agent-2/releas
 
 # Create the Scalyr config map
 echo "Creating scalyr config map ..."
-kubectl create -f ./configmap.yaml
+kubectl create -f ${CONFIGMAP_FILE}
 kubectl get configmap scalyr-config -o yaml
 
 # Create the daemonset
