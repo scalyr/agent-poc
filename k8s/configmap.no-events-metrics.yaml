@@ -4,9 +4,9 @@ data:
   SCALYR_K8S_CLUSTER_NAME: <your-cluster-name>
 
   # events and metrics
-  SCALYR_K8S_EVENTS_DISABLE: "false"
-  SCALYR_REPORT_CONTAINER_METRICS: "true"
-  SCALYR_REPORT_K8S_METRICS: "true"
+  SCALYR_K8S_EVENTS_DISABLE: "true"
+  SCALYR_REPORT_CONTAINER_METRICS: "false"
+  SCALYR_REPORT_K8S_METRICS: "false"
 
   # Uncomment if containerd is being used
   #SCALYR_K8S_CRI_QUERY_FILESYSTEM: "true"
