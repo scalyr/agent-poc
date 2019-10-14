@@ -1,0 +1,24 @@
+{
+
+  // settings for high log volume
+  max_line_size: 49900,
+  max_allowed_request_size: 5500000,
+  pipeline_threshold: 0.1,
+  min_request_spacing_interval: 0.5,
+  max_request_spacing_interval: 1.0,
+  max_log_offset_size: 200000000,
+  max_existing_log_offset_size: 200000000,
+
+  // Comment/uncomment the following line to disable/enable compression of request data.
+  // Compressed data will use less outgoing bandwidth, but will increase CPU load of
+  // individual agents
+  compression_type: "deflate",
+
+  // Fields describing this server. These fields are attached to each log message, and
+  // can be used to filter data from a particular server or group of servers.
+  server_attributes: {
+     // Fill in this field if you'd like to override the server's hostname.
+     // serverHost: "REPLACE THIS",
+  }
+}
+
