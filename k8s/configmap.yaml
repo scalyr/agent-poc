@@ -3,27 +3,26 @@ kind: ConfigMap
 data:
   SCALYR_K8S_CLUSTER_NAME: <your-cluster-name>
 
-  # events and metrics
-  SCALYR_K8S_EVENTS_DISABLE: "false"
-  SCALYR_REPORT_CONTAINER_METRICS: "true"
-  SCALYR_REPORT_K8S_METRICS: "true"
-
-  # Uncomment if containerd is being used
-  #SCALYR_K8S_CRI_QUERY_FILESYSTEM: "true"
+  # disable events and metrics
+  SCALYR_K8S_EVENTS_DISABLE: "true"
+  SCALYR_REPORT_CONTAINER_METRICS: "false"
+  SCALYR_REPORT_K8S_METRICS: "false"
 
   # settings for high log volume
   SCALYR_MAX_LINE_SIZE: "49900"
-  SCALYR_MAX_ALLOWED_REQUEST_SIZE: "5500000"
-  SCALYR_PIPELINE_THRESHOLD: "0.1"
-  SCALYR_MIN_REQUEST_SPACING_INTERVAL: "0.5"
+  SCALYR_MAX_ALLOWED_REQUEST_SIZE: "5900000"
+  SCALYR_PIPELINE_THRESHOLD: "0"
+  SCALYR_MIN_REQUEST_SPACING_INTERVAL: "0.1"
   SCALYR_MAX_REQUEST_SPACING_INTERVAL: "1.0"
   SCALYR_MAX_LOG_OFFSET_SIZE: "200000000"
   SCALYR_MAX_EXISTING_LOG_OFFSET_SIZE: "200000000"
 
-  # Comment/uncomment the following line to disable/enable compression of request data.
+  # Comment/Uncomment the following lines to enable compression of request data.
   # Compressed data will use less outgoing bandwidth, but will increase CPU load of
   # individual agents
-  SCALYR_COMPRESSION_TYPE: deflate
+  SCALYR_COMPRESSION_TYPE: "none"
+  #SCALYR_COMPRESSION_TYPE: "deflate"
+  #SCALYR_COMPRESSION_LEVEL: "6"  # Maybe also try 3 if some compression is desired, but CPU usage is too high at 6
 
   # K8S cache config
   SCALYR_K8S_QUERY_TIMEOUT_SECS: "120"
