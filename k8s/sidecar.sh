@@ -22,8 +22,8 @@ if [ -z "$SCALYR_API_KEY" ]; then
     return
 else
     # delete old objects
-    echo "Deleting old scalyr daemonset ..."
-    kubectl delete daemonset scalyr-agent-2
+    echo "Deleting old genlog deployment ..."
+    kubectl delete deployment scalyr-genlog
 
     echo "Deleting old scalyr configmap ..."
     kubectl delete configmap scalyr-config
