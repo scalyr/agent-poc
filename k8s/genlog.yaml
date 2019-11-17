@@ -74,7 +74,7 @@ spec:
               name: scalyr-config
         resources:
           limits:
-            memory: 60Mi
+            memory: 80Mi
         volumeMounts:
         - name: varlibdockercontainers
           mountPath: /var/lib/docker/containers
