@@ -1,15 +1,45 @@
-apiVersion: extensions/v1beta1
-kind: DaemonSet
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: scalyr-agent-2
+  name: scalyr-genlog
 spec:
+  replicas: 10 # for scalyr-genlog this should match the value of the --distributed parameter
+  selector:
+    matchLabels:
+      app: scalyr-genlog
   template:
     metadata:
+      name: scalyr-genlog
       labels:
-        app: scalyr-agent-2
+        app: scalyr-genlog
+      annotations:
+        log.config.scalyr.com/attributes.parser: "imronTest"
     spec:
+      # service account needs to be the scalyr-service-account, OR
+      # your own service account with the same permissions as the
+      # scalyr-service-account
       serviceAccountName: scalyr-service-account
+
       containers:
+      #
+      # PUT YOUR MAIN CONTAINER HERE
+      #
+      - name: scalyr-genlog
+        image: scalyr/scalyr-genlog:0.1.0
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/scalyr-genlog"]
+        # generate 200k/s of logs across the entire cluster
+        args: ["--bytes-per-sec", "200k", "--line-len", "7k", "--distributed", "10"]
+        resources:
+          limits:
+            cpu: 10m
+      #
+      # END OF MAIN CONTAINER
+      #
+
+      # 
+      # SIDECAR SCALYR AGENT
+      #
       - name: scalyr-agent
         image: brianchristie/scalyr-k8s-agent:2.0.54.sidecar_mode
         imagePullPolicy: Always
@@ -44,7 +74,7 @@ spec:
               name: scalyr-config
         resources:
           limits:
-            memory: 500Mi
+            memory: 60Mi
         volumeMounts:
         - name: varlibdockercontainers
           mountPath: /var/lib/docker/containers
@@ -70,8 +100,4 @@ spec:
       - name: dockersock
         hostPath:
           path: /var/run/docker.sock
-      # comment this section if you do not want to run on the master
-      # tolerations:
-      # - key: "node-role.kubernetes.io/master"
-      #   operator: "Exists"
-      #   effect: "NoSchedule"
+
