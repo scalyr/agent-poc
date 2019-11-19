@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: scalyr-genlog
 spec:
-  replicas: 10 # for scalyr-genlog this should match the value of the --distributed parameter
+  replicas: 3 # for scalyr-genlog this should match the value of the --distributed parameter
   selector:
     matchLabels:
       app: scalyr-genlog
@@ -29,7 +29,7 @@ spec:
         imagePullPolicy: IfNotPresent
         command: ["/bin/scalyr-genlog"]
         # generate 200k/s of logs across the entire cluster
-        args: ["--bytes-per-sec", "200k", "--line-len", "7k", "--distributed", "10"]
+        args: ["--bytes-per-sec", "20k", "--line-len", "1k", "--distributed", "3"]
         resources:
           limits:
             cpu: 10m
@@ -41,7 +41,7 @@ spec:
       # SIDECAR SCALYR AGENT
       #
       - name: scalyr-agent
-        image: brianchristie/scalyr-k8s-agent:2.0.54.sidecar_mode
+        image: scalyr/scalyr-k8s-agent:2.0.54.sidecar_mode.1
         imagePullPolicy: Always
         env:
           - name: SCALYR_API_KEY
