@@ -38,7 +38,7 @@ spec:
       # SIDECAR SCALYR AGENT
       #
       - name: scalyr-agent
-        image: scalyr/scalyr-k8s-agent:2.0.54.sidecar_mode
+        image: scalyr/scalyr-k8s-agent:2.0.54.sidecar_mode.1
         imagePullPolicy: Always
         env:
           - name: SCALYR_API_KEY
