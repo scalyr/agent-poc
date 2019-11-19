@@ -1,17 +1,44 @@
-apiVersion: extensions/v1beta1
-kind: DaemonSet
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: scalyr-agent-2
+  name: CUSTOM-APP
 spec:
+  replicas: XXX
+  selector:
+    matchLabels:
+      app: CUSTOM-APP
   template:
     metadata:
+      name: CUSTOM-APP
       labels:
-        app: scalyr-agent-2
+        app: CUSTOM-APP
+      annotations:
+        # Set a parser for your app
+        log.config.scalyr.com/attributes.parser: "customParser"
     spec:
+      # SERVICE ACCOUNT
+      # service account needs to be the scalyr-service-account, OR
+      # your own service account with the same permissions as the
+      # scalyr-service-account
       serviceAccountName: scalyr-service-account
+
       containers:
+      #
+      # CONFIGURE YOUR MAIN CONTAINER HERE
+      #
+      - name: MAIN-CONTAINER
+        image: MAIN-CONTAINER-IMAGE:VERSION
+        imagePullPolicy: IfNotPresent
+        # Other fields here as necessary
+      #
+      # END OF MAIN CONTAINER
+      #
+
+      # 
+      # SIDECAR SCALYR AGENT
+      #
       - name: scalyr-agent
-        image: brianchristie/scalyr-k8s-agent:2.0.54.sidecar_mode
+        image: scalyr/scalyr-k8s-agent:2.0.54.sidecar_mode
         imagePullPolicy: Always
         env:
           - name: SCALYR_API_KEY
@@ -44,7 +71,9 @@ spec:
               name: scalyr-config
         resources:
           limits:
-            memory: 500Mi
+            memory: 150Mi
+          requests:
+            memory: 60Mi
         volumeMounts:
         - name: varlibdockercontainers
           mountPath: /var/lib/docker/containers
@@ -57,6 +86,9 @@ spec:
           readOnly: true
         - name: dockersock
           mountPath: /var/scalyr/docker.sock
+      #
+      # SIDECAR SCALYR AGENT NEEDS THESE HOST PATHS MAPPED
+      #
       volumes:
       - name: varlibdockercontainers
         hostPath:
@@ -70,8 +102,4 @@ spec:
       - name: dockersock
         hostPath:
           path: /var/run/docker.sock
-      # comment this section if you do not want to run on the master
-      # tolerations:
-      # - key: "node-role.kubernetes.io/master"
-      #   operator: "Exists"
-      #   effect: "NoSchedule"
+
