@@ -37,5 +37,4 @@ for each stage:
 
 * Stage 2, target load 60 MiB/s across 10 nodes = 6 MiB/s/node = 2 generators/node each generating 3 MiB/s
 * Stage 3, target load 200 MiB/s across 10 nodes = 20 MiB/s/node = 4 generators/node each generating 5 MiB/s
-* Stage 4, target load 600 MiB/s across 10 nodes = 60 MiB/s/node = 10 generators/node each generating 6 MiB/s
 
