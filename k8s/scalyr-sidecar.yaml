@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: CUSTOM-APP
 spec:
+  revisionHistoryLimit: 10
   replicas: XXX
   selector:
     matchLabels:
@@ -16,12 +17,6 @@ spec:
         # Set a parser for your app
         log.config.scalyr.com/attributes.parser: "customParser"
     spec:
-      # SERVICE ACCOUNT
-      # service account needs to be the scalyr-service-account, OR
-      # your own service account with the same permissions as the
-      # scalyr-service-account
-      serviceAccountName: scalyr-service-account
-
       containers:
       #
       # CONFIGURE YOUR MAIN CONTAINER HERE
@@ -37,69 +32,97 @@ spec:
       # 
       # SIDECAR SCALYR AGENT
       #
-      - name: scalyr-agent
-        image: scalyr/scalyr-k8s-agent:2.0.54.sidecar_mode.1
-        imagePullPolicy: Always
-        env:
-          - name: SCALYR_API_KEY
-            valueFrom:
-              secretKeyRef:
-                name: scalyr-api-key
-                key: scalyr-api-key
-          - name: SCALYR_K8S_NODE_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: spec.nodeName
-          - name: SCALYR_K8S_POD_NAME
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.name
-          - name: SCALYR_K8S_POD_NAMESPACE
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.namespace
-          - name: SCALYR_K8S_POD_UID
-            valueFrom:
-              fieldRef:
-                fieldPath: metadata.uid
-          - name: SCALYR_K8S_KUBELET_HOST_IP
-            valueFrom:
-              fieldRef:
-                fieldPath: status.hostIP
+      - env:
+        - name: SCALYR_API_KEY
+          valueFrom:
+            secretKeyRef:
+              key: scalyr-api-key
+              name: scalyr-api-key
+        - name: SCALYR_K8S_NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: SCALYR_K8S_POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: SCALYR_K8S_POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: SCALYR_K8S_POD_UID
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.uid
+        - name: SCALYR_K8S_KUBELET_HOST_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
         envFrom:
-          - configMapRef:
-              name: scalyr-config
+        - configMapRef:
+            name: scalyr-config
+        image: scalyr/scalyr-k8s-agent:2.1.1
+        imagePullPolicy: Always
+        name: scalyr-agent
         resources:
           limits:
             memory: 150Mi
           requests:
-            memory: 60Mi
+            memory: 80Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
         volumeMounts:
-        - name: varlibdockercontainers
-          mountPath: /var/lib/docker/containers
+        - mountPath: /var/lib/docker/containers
+          name: varlibdockercontainers
           readOnly: true
-        - name: varlogpods
-          mountPath: /var/log/pods
+        - mountPath: /var/log/pods
+          name: varlogpods
           readOnly: true
-        - name: varlogcontainers
-          mountPath: /var/log/containers
+        - mountPath: /var/log/containers
+          name: varlogcontainers
           readOnly: true
-        - name: dockersock
-          mountPath: /var/scalyr/docker.sock
+        - mountPath: /var/scalyr/docker.sock
+          name: dockersock
+        - mountPath: /var/lib/scalyr-agent-2
+          name: checkpoints
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      # SERVICE ACCOUNT
+      # service account needs to be the scalyr-service-account, OR
+      # your own service account with the same permissions as the
+      # scalyr-service-account
+      serviceAccount: scalyr-service-account
+      serviceAccountName: scalyr-service-account
+      terminationGracePeriodSeconds: 30
       #
       # SIDECAR SCALYR AGENT NEEDS THESE HOST PATHS MAPPED
       #
       volumes:
-      - name: varlibdockercontainers
-        hostPath:
+      - hostPath:
           path: /var/lib/docker/containers
-      - name: varlogpods
-        hostPath:
+          type: ""
+        name: varlibdockercontainers
+      - hostPath:
           path: /var/log/pods
-      - name: varlogcontainers
-        hostPath:
+          type: ""
+        name: varlogpods
+      - hostPath:
           path: /var/log/containers
-      - name: dockersock
-        hostPath:
+          type: ""
+        name: varlogcontainers
+      - hostPath:
           path: /var/run/docker.sock
+          type: ""
+        name: dockersock
+      - hostPath:
+          path: /tmp/scalyr-agent-2
+          type: DirectoryOrCreate
+        name: checkpoints
 
