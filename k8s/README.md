@@ -14,8 +14,7 @@ The file `scalyr-sidecar.yaml` contains a sample deployment with necessary detai
 2. The service account used by the pod needs to be the `scalyr-service-account` OR a service account
    configured with the same permissions.  See `scalyr-service-account.yaml` for details of the
    necessary permissions.
-3. A custom build of the agent is required to run in sidecar mode.  The most recent build of this
-   is `scalyr/scalyr-k8s-agent:2.1.1
+3. The most recent build of the agent is `scalyr/scalyr-k8s-agent:2.1.1
 4. The kubernetes downward api needs to be used to expose environment variables to the scalyr agent container
 5. Memory requirements under high load may increase and if memory limits are set too low, then the agent
    container will be killed.  Setting a memory request size of 80Mi and a memory limit of 150Mi should be safe values.
