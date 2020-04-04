@@ -15,10 +15,10 @@ The file `scalyr-sidecar.yaml` contains a sample deployment with necessary detai
    configured with the same permissions.  See `scalyr-service-account.yaml` for details of the
    necessary permissions.
 3. A custom build of the agent is required to run in sidecar mode.  The most recent build of this
-   is `scalyr/scalyr-k8s-agent:2.0.54.sidecar_mode.1`
+   is `scalyr/scalyr-k8s-agent:2.1.1
 4. The kubernetes downward api needs to be used to expose environment variables to the scalyr agent container
 5. Memory requirements under high load may increase and if memory limits are set too low, then the agent
-   container will be killed.  Setting a memory request size of 60Mi and a memory limit of 150Mi should be safe values.
+   container will be killed.  Setting a memory request size of 80Mi and a memory limit of 150Mi should be safe values.
 6. The scalyr agent requires various paths mapped in from the host node otherwise it won't be able
    to find the files to upload.
 
@@ -37,4 +37,5 @@ for each stage:
 
 * Stage 2, target load 60 MiB/s across 10 nodes = 6 MiB/s/node = 2 generators/node each generating 3 MiB/s
 * Stage 3, target load 200 MiB/s across 10 nodes = 20 MiB/s/node = 4 generators/node each generating 5 MiB/s
+* Stage 4, target load 2 GiB/s across 100 nodes = 20 MiB/s/node = 4 generators/node each generating 5 MiB/s
 
