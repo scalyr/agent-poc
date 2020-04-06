@@ -3,6 +3,8 @@ kind: ConfigMap
 data:
   SCALYR_K8S_CLUSTER_NAME: test-cluster
 
+  SCALYR_SERVER: "https://app-logstaging.scalyr.com"
+
   # disable events and metrics
   SCALYR_K8S_EVENTS_DISABLE: "true"
   SCALYR_REPORT_CONTAINER_METRICS: "false"

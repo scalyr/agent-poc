@@ -15,7 +15,7 @@ spec:
         app: CUSTOM-APP
       annotations:
         # Set a parser for your app
-        log.config.scalyr.com/attributes.parser: "customParser"
+        log.config.scalyr.com/attributes.parser: "loadTestParser"
     spec:
       containers:
       #
@@ -88,8 +88,6 @@ spec:
           readOnly: true
         - mountPath: /var/scalyr/docker.sock
           name: dockersock
-        - mountPath: /var/lib/scalyr-agent-2
-          name: checkpoints
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -121,8 +119,4 @@ spec:
           path: /var/run/docker.sock
           type: ""
         name: dockersock
-      - hostPath:
-          path: /tmp/scalyr-agent-2
-          type: DirectoryOrCreate
-        name: checkpoints
 
