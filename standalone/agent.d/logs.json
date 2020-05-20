@@ -1,0 +1,12 @@
+{
+  // Log files to upload to Scalyr. You can use '*' wildcards here.
+  // See here for details: https://app.scalyr.com/help/scalyr-agent?#logUpload
+  logs: [
+  {
+    path: "/var/log/httpd/access.log",
+    attributes: {
+      parser: "accessLog"
+    }
+  }
+  ],
+}
