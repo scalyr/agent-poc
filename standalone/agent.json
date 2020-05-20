@@ -1,4 +1,6 @@
 {
+  // Use the staging servers
+  scalyr_server: "https://app-logstaging.scalyr.com",  
 
   // settings for high log volume
   max_line_size: 49900,
