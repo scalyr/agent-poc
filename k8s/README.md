@@ -1,9 +1,9 @@
 ## Customer load test PoC
 
 This branch provides is a template for running customer load tests using
-the Scalyr Agent and sending the load to the Scalyr internal instance,
-`logstaging.scalyr.com`.  The Scalyr Agent has been configured to allow for
-high log volume.
+Kubernetes and the Scalyr Agent and sending the load to the Scalyr internal
+instance, `logstaging.scalyr.com`.  The Scalyr Agent has been configured to
+allow for high log volume.
 
 ## Clone appropriate branch
 
@@ -11,6 +11,10 @@ You will need to edit the provided YAML files in preparation for your
 load test.  We suggest you clone the appropriate branch:
 
     git clone -b customer_c git@github.com:scalyr/agent-poc.git
+
+And then change to the `agent-poc/k8s` directory
+
+    cd agent-poc/k8s
 
 ## Set up the required Kubernetes resources
 
