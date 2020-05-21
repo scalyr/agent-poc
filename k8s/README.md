@@ -21,30 +21,30 @@ And then change to the `agent-poc/k8s` directory
 Before you run the load test, you need to perform the following actions
 to create the necesary Kubernetes resources.
 
-1.  Create the Scalyr namespace.
-  
-  All resources will be created in a namespace called `scalyr`.
-  
-      kubectl create namespace scalyr
+### Create the Scalyr namespace.
 
-2.  Create a secret with a write logs API key from your test account.
-  
-  To obtain a write logs API key, log into the account provided to you
-  by Scalyr and go to [API keys](https://logstaging.scalyr.com/keys) page.
-  Copy an existing key with "Write" access in the "Log Access Keys" section.
-  
-  Then create a secret with that value:
-  
-      kubectl create secret generic scalyr-api-key --namespace=scalyr --from-literal=scalyr-api-key="<YOUR KEY>"
+All resources will be created in a namespace called `scalyr`.
 
-3.  Create required Kubernetes resources.
-  
-  Create the configuration state and service account used by the Scalyr Agent container.
-      
-      kubectl create -f configmap.yaml
-      kubectl create -f scalyr-service-account.yaml
+    kubectl create namespace scalyr
 
-4.  Start the Scalyr Agent
+### 2.  Create a secret with a write logs API key from your test account.
+
+To obtain a write logs API key, log into the account provided to you
+by Scalyr and go to [API keys](https://logstaging.scalyr.com/keys) page.
+Copy an existing key with "Write" access in the "Log Access Keys" section.
+
+Then create a secret with that value:
+
+    kubectl create secret generic scalyr-api-key --namespace=scalyr --from-literal=scalyr-api-key="<YOUR KEY>"
+
+### 3.  Create required Kubernetes resources.
+
+Create the configuration state and service account used by the Scalyr Agent container.
+
+    kubectl create -f configmap.yaml
+    kubectl create -f scalyr-service-account.yaml
+
+### 4.  Start the Scalyr Agent
 
    kubectl create -f scalyr-agent-2.yaml
 

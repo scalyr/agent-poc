@@ -21,43 +21,42 @@ And then change to the `standalone` directory
 Before you run the load test, you need to perform the following actions
 to configure the agent
 
-1.  Configure your API key
+### Configure your API key
 
-  To obtain a write logs API key, log into the account provided to you
-  by Scalyr and go to [API keys](https://logstaging.scalyr.com/keys) page.
-  Copy an existing key with "Write" access in the "Log Access Keys" section.
+To obtain a write logs API key, log into the account provided to you
+by Scalyr and go to [API keys](https://logstaging.scalyr.com/keys) page.
+Copy an existing key with "Write" access in the "Log Access Keys" section.
+
+Edit the file `agent.d/api_key.json` and add your Write Logs api key.
   
-  Edit the file `agent.d/api_key.json` and add your Write Logs api key.
-  
-2.  Configure your logs
-  
-  Edit the file `agent.d/logs.json` and add log config entries for each path
-  you want to monitor.  Be sure to set a unique parser type for each unique
-  file format.
+### Configure your logs
 
+Edit the file `agent.d/logs.json` and add log config entries for each path
+you want to monitor.  Be sure to set a unique parser type for each unique
+file format.
 
-  See the [Scalyr
-  Documention](https://app.scalyr.com/help/scalyr-agent?#logUpload) for more
-  details about configuring logs.
-  
-3.  Configure server attributes
-  
-  Edit the file `agent.json` and add in any server\_attributes you would like
-  associated with all log files.  It's ok to leave this empty.
+See the [Scalyr
+Documention](https://app.scalyr.com/help/scalyr-agent?#logUpload) for more
+details about configuring logs.
 
-  See the [Scalyr
-  Documention](https://app.scalyr.com/help/scalyr-agent?#hostname) for more
-  details about server attributes.
+### Configure server attributes
 
-4.  Copy config to the host
+Edit the file `agent.json` and add in any server\_attributes you would like
+associated with all log files.  It's ok to leave this empty.
 
-  Once configured, you should copy `agent.json` and `agent.d` to
-  `/etc/scalyr-agent-2/agent.json` and /etc/scalyr-agent-2/agent.d` on the
-  host, overriding any files that were previously there.
+See the [Scalyr
+Documention](https://app.scalyr.com/help/scalyr-agent?#hostname) for more
+details about server attributes.
 
-5.  Starting the Scalyr Agent
+### Copy config to the host
 
-  You can now start the Scalyr Agent with
+Once configured, you should copy `agent.json` and `agent.d` to
+`/etc/scalyr-agent-2/agent.json` and /etc/scalyr-agent-2/agent.d` on the
+host, overriding any files that were previously there.
+
+### Starting the Scalyr Agent
+
+You can now start the Scalyr Agent with
 
     scalyr-agent-2 start
 
