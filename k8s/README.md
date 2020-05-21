@@ -21,7 +21,7 @@ And then change to the `agent-poc/k8s` directory
 Before you run the load test, you need to perform the following actions
 to create the necesary Kubernetes resources.
 
-### Create the Scalyr namespace.
+### 1.  Create the Scalyr namespace.
 
 All resources will be created in a namespace called `scalyr`.
 
